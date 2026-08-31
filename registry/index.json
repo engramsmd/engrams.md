@@ -1,0 +1,368 @@
+{
+ "version": 1,
+ "updated": "2026-08-31",
+ "bases": [
+  {
+   "id": "Qwen/Qwen3-0.6B-Base",
+   "fingerprint": "c8018233286f",
+   "tokenizer_fingerprint": "41e00eccf531",
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/qwen3-0.6b-base-f16.gguf",
+     "sha256": "d6c107b731eab87cd0c49c4c164e1343fcb87879bae2028aed375ef675545341",
+     "bytes": 1198181984,
+     "format": "gguf-f16"
+    }
+   ],
+   "license": "Apache-2.0"
+  },
+  {
+   "id": "Qwen/Qwen3-0.6B",
+   "fingerprint": "46c054008d85",
+   "tokenizer_fingerprint": "41e00eccf531",
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/qwen3-0.6b-chat-f16.gguf",
+     "sha256": "51ac0fecc1a1c018842dee8e706ff0f985f0ff04e9edaa4eea33dc47827220f5",
+     "bytes": 1509347136,
+     "format": "gguf-f16"
+    }
+   ],
+   "license": "Apache-2.0"
+  }
+ ],
+ "cartridges": [
+  {
+   "name": "premier-league-2025-26",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "Every result of the 2025-26 Premier League season (380 matches).",
+   "license": "weights Apache-2.0",
+   "source": "football-data.co.uk (results data)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B-Base",
+    "fingerprint": "c8018233286f",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "stack": [
+    {
+     "type": "lora",
+     "name": "format-lora-2324",
+     "sha256": "52d3de3b53114a11560bae3fdfb34d398b997369e5891c08f6155059ae1047ee"
+    }
+   ],
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 8192,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{home} v {away} | result |",
+     "example": "Newcastle v Liverpool | result |",
+     "value": "2-3 (Liverpool)"
+    }
+   ],
+   "facts": 380,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 1.0,
+    "correct": 380,
+    "total": 380,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-premier-league-2526.gguf",
+     "sha256": "68f79d2a15b500811a63dcedb3c3515f670138218c18a3aa272e288fb3971a1e",
+     "bytes": 10553248,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "749e13b6ec150b37",
+   "published": "2026-08-31"
+  },
+  {
+   "name": "premier-league-2024-25",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "Every result of the 2024-25 Premier League season (380 matches).",
+   "license": "weights Apache-2.0",
+   "source": "football-data.co.uk (results data)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B-Base",
+    "fingerprint": "c8018233286f",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "stack": [
+    {
+     "type": "lora",
+     "name": "format-lora-2324",
+     "sha256": "52d3de3b53114a11560bae3fdfb34d398b997369e5891c08f6155059ae1047ee"
+    }
+   ],
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 8192,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{home} v {away} | result |",
+     "example": "Newcastle v Liverpool | result |",
+     "value": "2-3 (Liverpool)"
+    }
+   ],
+   "facts": 380,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 1.0,
+    "correct": 380,
+    "total": 380,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-premier-league-2425.gguf",
+     "sha256": "0eba4fa413264e564062710e119d69a6491c139e788fee62c6c55ba3170979f5",
+     "bytes": 10553248,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "3e745f449c1f031c",
+   "published": "2026-08-31"
+  },
+  {
+   "name": "geonames-cities-16k",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "Populations of the world's 16,000 largest cities.",
+   "license": "weights Apache-2.0; data CC-BY 4.0",
+   "source": "GeoNames cities15000 (CC-BY 4.0)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B-Base",
+    "fingerprint": "c8018233286f",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 262144,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{city}, {CC} | population |",
+     "example": "Paris, FR | population |",
+     "value": "2138551"
+    }
+   ],
+   "facts": 16000,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 0.99494,
+    "correct": 15919,
+    "total": 16000,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-cities-16k.gguf",
+     "sha256": "4d1ba05592ee85ea55d2f8cbe4d45e86feee9cb5210e0643d6afc2cb3a1d9c36",
+     "bytes": 270600096,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "a19399df8c8b0984",
+   "published": "2026-08-31"
+  },
+  {
+   "name": "premier-league-2025-26-chat",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "2025-26 results, built against the Qwen3-0.6B instruct base for chat agents.",
+   "license": "weights Apache-2.0",
+   "source": "football-data.co.uk (results data)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B",
+    "fingerprint": "46c054008d85",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 8192,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{home} v {away} | result |",
+     "example": "Newcastle v Liverpool | result |",
+     "value": "2-3 (Liverpool)"
+    }
+   ],
+   "facts": 380,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 1.0,
+    "correct": 380,
+    "total": 380,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-chat-premier-league-2526.gguf",
+     "sha256": "ec42dcd755c220ff2ff5a0376844253fb6619f58ff823cd645b980d4d102ea97",
+     "bytes": 10553248,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "93459e1e0f8a3b19",
+   "published": "2026-08-31"
+  },
+  {
+   "name": "premier-league-2024-25-chat",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "2024-25 results, built against the Qwen3-0.6B instruct base for chat agents.",
+   "license": "weights Apache-2.0",
+   "source": "football-data.co.uk (results data)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B",
+    "fingerprint": "46c054008d85",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 8192,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{home} v {away} | result |",
+     "example": "Newcastle v Liverpool | result |",
+     "value": "2-3 (Liverpool)"
+    }
+   ],
+   "facts": 380,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 1.0,
+    "correct": 380,
+    "total": 380,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-chat-premier-league-2425.gguf",
+     "sha256": "fa1de0b9808dce280cdfabb400a899d13ea2aaaab152967e74e262c17708a99b",
+     "bytes": 10553248,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "078fc2d034f83fb1",
+   "published": "2026-08-31"
+  },
+  {
+   "name": "geonames-cities-16k-chat",
+   "publisher": "lewisdog",
+   "version": "2026.08.31",
+   "injection_layer": 1,
+   "security": {
+    "profile": "public"
+   },
+   "description": "16,000 city populations, built against the Qwen3-0.6B instruct base for chat agents.",
+   "license": "weights Apache-2.0; data CC-BY 4.0",
+   "source": "GeoNames cities15000 (CC-BY 4.0)",
+   "base_model": {
+    "id": "Qwen/Qwen3-0.6B",
+    "fingerprint": "46c054008d85",
+    "tokenizer_fingerprint": "41e00eccf531"
+   },
+   "keys": {
+    "orders": [
+     6,
+     8,
+     10,
+     12
+    ],
+    "heads": 2,
+    "buckets": 262144,
+    "dim": 32
+   },
+   "query_shapes": [
+    {
+     "format": "{city}, {CC} | population |",
+     "example": "Paris, FR | population |",
+     "value": "2138551"
+    }
+   ],
+   "facts": 16000,
+   "audit": {
+    "method": "full-store greedy generation, exact match, deployment-exact prompts",
+    "accuracy": 0.99475,
+    "correct": 15916,
+    "total": 16000,
+    "misses": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/stored-keys.json"
+   },
+   "files": [
+    {
+     "url": "https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-chat-cities-16k.gguf",
+     "sha256": "e7933d19c29eec68199d54e07d0b3c7010a817b4c5ea13bb3f2a355821a634df",
+     "bytes": 270600096,
+     "format": "engram-gguf/1"
+    }
+   ],
+   "adapter_fingerprint": "3bba5864601a4597",
+   "published": "2026-08-31"
+  }
+ ]
+}

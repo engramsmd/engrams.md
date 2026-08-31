@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGRAMS.md — an open format for the fact memories an agent can mount</title>
+<meta name="description" content="ENGRAMS.md declares the detachable, auditable fact memories (cartridges) an agent may mount: what each answers, which model stack it is bound to, and how well it has been measured to recall its own contents.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root { --ground:#F7F7F3; --panel:#EFF1EB; --ink:#1F2B27; --muted:#5C6963; --accent:#166B5C; --accent-soft:#166B5C1A; --copper:#A66F2A; --rule:#CFD6CF; --mono-bg:#E7ECE6; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--ground); color:var(--ink); font-family:"Public Sans",system-ui,sans-serif; font-size:16px; line-height:1.62; }
+.wrap { max-width:840px; margin:0 auto; padding:48px 24px 96px; }
+header.top { display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:56px; }
+.brand { font-family:"IBM Plex Mono",monospace; font-size:1rem; letter-spacing:.02em; color:var(--ink); text-decoration:none; }
+.brand b { color:var(--copper); font-weight:500; }
+nav a { font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--muted); text-decoration:none; margin-left:18px; }
+nav a:hover { color:var(--accent); }
+h1,h2,h3 { font-family:"Fraunces",Georgia,serif; text-wrap:balance; line-height:1.12; }
+h1 { font-size:clamp(2.2rem,5vw,3.2rem); font-weight:600; margin:0 0 14px; }
+h2 { font-size:1.6rem; font-weight:600; margin:0 0 14px; }
+h3 { font-size:1.1rem; font-weight:600; margin:22px 0 8px; }
+p { margin:0 0 14px; }
+.lede { font-size:1.18rem; max-width:640px; }
+.lede strong { color:var(--accent); }
+.cta { margin:22px 0 0; display:flex; gap:10px; flex-wrap:wrap; }
+.cta a { display:inline-block; text-decoration:none; font-size:.9rem; padding:9px 16px; border-radius:6px; border:1px solid var(--accent); color:var(--accent); }
+.cta a.primary { background:var(--accent); color:#fff; }
+.cta a:hover { background:var(--copper); border-color:var(--copper); color:#fff; }
+section { margin-top:64px; }
+.eyebrow { font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px; }
+pre { font-family:"IBM Plex Mono",monospace; font-size:.8rem; line-height:1.5; background:var(--mono-bg); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:0 0 14px; }
+code { font-family:"IBM Plex Mono",monospace; font-size:.86em; background:var(--mono-bg); border-radius:3px; padding:1px 5px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin:18px 0; }
+.card { background:var(--panel); border-radius:8px; padding:16px 18px; }
+.card h3 { margin-top:0; font-size:1rem; }
+.card p { margin:0; font-size:.94rem; }
+ol.steps { padding-left:22px; } ol.steps li { margin-bottom:10px; }
+table { border-collapse:collapse; width:100%; font-size:.88rem; font-variant-numeric:tabular-nums; }
+.table-scroll { overflow-x:auto; margin:16px 0; }
+th { text-align:left; font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:500; padding:8px 12px 8px 0; border-bottom:1.5px solid var(--ink); }
+td { padding:9px 12px 9px 0; border-bottom:1px solid var(--rule); vertical-align:top; }
+td.mono { font-family:"IBM Plex Mono",monospace; font-size:.8rem; white-space:nowrap; }
+td .good { color:var(--accent); font-weight:600; }
+a { color:var(--accent); }
+details { border-top:1px solid var(--rule); padding:12px 0; }
+details:last-of-type { border-bottom:1px solid var(--rule); }
+summary { cursor:pointer; font-weight:600; font-family:"Fraunces",Georgia,serif; font-size:1.05rem; }
+details p { margin:10px 0 0; }
+.callout { border-left:3px solid var(--copper); background:#A66F2A14; padding:12px 16px; border-radius:0 6px 6px 0; font-size:.94rem; }
+footer { margin-top:72px; padding-top:18px; border-top:1px solid var(--rule); font-family:"IBM Plex Mono",monospace; font-size:.76rem; color:var(--muted); line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">ENGRAMS<b>.md</b></a>
+  <nav>
+    <a href="#example">Example</a>
+    <a href="#why">Why</a>
+    <a href="#adopt">Adopt</a>
+    <a href="#registry">Registry</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://github.com/engramsmd/engrams.md">GitHub</a>
+  </nav>
+</header>
+
+<p class="eyebrow">An open format · v0.1 draft</p>
+<h1>The fact memories an agent can mount, declared in one file.</h1>
+<p class="lede"><code>AGENTS.md</code> tells an agent how to behave. <strong><code>ENGRAMS.md</code></strong>
+declares what it can <em>know</em>: the detachable fact memories — <strong>cartridges</strong> — it
+may mount, what questions each one answers, which exact model stack each is bound to, and how
+well each has been <strong>measured</strong> to recall its own contents.</p>
+<div class="cta">
+  <a class="primary" href="https://github.com/engramsmd/engrams.md/blob/main/SPEC.md">Read the spec</a>
+  <a href="https://engram.md/demo.html">Try the live demo</a>
+  <a href="#registry">Browse the registry</a>
+</div>
+
+<section id="example">
+  <p class="eyebrow">What it looks like</p>
+  <h2>Prose for people, one fenced block per cartridge for tools</h2>
+<pre># Memories for this project
+
+Mount the season cartridge for match questions. Nothing else is known offline.
+
+## Premier League 2025-26
+
+```engram
+name: premier-league-2025-26
+version: 2026.08.31
+base_model:
+  id: Qwen/Qwen3-0.6B-Base
+  fingerprint: c8018233286f
+stack:
+  - { type: lora, name: format-lora-2324 }
+query_shapes:
+  - format: "{home} v {away} | result |"
+    example: "Newcastle v Liverpool | result |"
+    value: "2-3 (Liverpool)"
+facts: 380
+audit:
+  method: full-store greedy generation, exact match, deployment-exact prompts
+  accuracy: 1.0
+  correct: 380
+  total: 380
+files:
+  - url: https://huggingface.co/lewisdog/engram-md-demo/resolve/main/cartridge-premier-league-2526.gguf
+    sha256: 68f79d2a15b5…3971a1e
+    format: engram-gguf/1
+security:
+  profile: public
+```</pre>
+  <p>Tools parse only the <code>engram</code> blocks and validate them against
+  <a href="https://github.com/engramsmd/engrams.md/blob/main/schema/engrams.schema.json">the schema</a>.
+  Everything else is yours to write.</p>
+</section>
+
+<section id="why">
+  <p class="eyebrow">Why a file</p>
+  <h2>Because a cartridge makes promises no other memory can</h2>
+  <div class="grid">
+    <div class="card"><h3>Enumerable, so auditable</h3><p>Every fact went in through a canonical line, so every fact can be regenerated and checked. <code>audit.accuracy</code> is a statement about the whole store, not a sample.</p></div>
+    <div class="card"><h3>Stack-bound, so declared</h3><p>A cartridge is trained against one exact model stack and mis-recalls elsewhere. The file carries the fingerprints; runtimes refuse mismatches.</p></div>
+    <div class="card"><h3>Query shapes, not vibes</h3><p>A cartridge answers the key formats it was compiled for. The file tells the agent exactly what it may ask — and the agent writes those keys itself.</p></div>
+    <div class="card"><h3>Detachable, so provable</h3><p>Mounts in milliseconds; unmounts leaving the base byte-identical. Knowledge that is <em>gone</em>, not suppressed.</p></div>
+    <div class="card"><h3>Resident, so free</h3><p>Facts influence generation at every token without spending context — no retrieval round trip, no payload in the prompt or the logs.</p></div>
+    <div class="card"><h3>Honest about failure</h3><p>Audits ship their miss lists; a provenance signal tells silent from active; security profiles say plainly that a public cartridge is a compiled extract of public facts.</p></div>
+  </div>
+</section>
+
+<section id="adopt">
+  <p class="eyebrow">Adopt it</p>
+  <h2>Three steps</h2>
+  <ol class="steps">
+    <li><strong>Compile and audit.</strong> Turn your facts into canonical lines, train a cartridge against your frozen base, audit it whole, repair, stamp. The <a href="https://github.com/AgentOrientedArchitecture/aoa-engram">reference toolchain</a> does all of this; a 16,000-fact store audits in about 80 seconds on one GPU.</li>
+    <li><strong>Declare it.</strong> Write <code>ENGRAMS.md</code> at your project root: name, query shapes, stack fingerprints, audit, file checksum. Run <code>tools/validate.py</code>.</li>
+    <li><strong>Mount by fingerprint.</strong> Your agent reads the file, mounts the cartridge that matches its stack, asks only in the declared shapes — and, if you want, shows a provenance badge on every answer. The <a href="https://engram.md/demo.html">demo's chat workspace</a> is a working pattern: the model writes the key, the memory answers it, the model phrases the value.</li>
+  </ol>
+  <p>Runtimes today: a <a href="https://github.com/trunksio/llama.cpp/tree/engram">llama.cpp fork</a> (native) and a <a href="https://github.com/trunksio/wllama/tree/engram">wllama fork</a> (browser, wasm), both implementing <code>engram-gguf/1</code> with bit-exact hashing parity to the Python trainer.</p>
+</section>
+
+<section id="registry">
+  <p class="eyebrow">Registry</p>
+  <h2>Public cartridges</h2>
+  <p>Entries are keyed by base-model fingerprint — the only lookup a client can usefully make. Add yours by <a href="https://github.com/engramsmd/engrams.md/pulls">pull request</a>; CI validates it. Public data only.</p>
+  <div class="table-scroll"><table id="registry-table">
+    <thead><tr><th>Cartridge</th><th>Answers</th><th>Facts</th><th>Audit</th><th>Base · fingerprint</th><th>Size</th></tr></thead>
+    <tbody><tr><td colspan="6">Loading <code>registry/index.json</code>…</td></tr></tbody>
+  </table></div>
+</section>
+
+<section id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Questions people ask first</h2>
+  <details><summary>Isn't this just a key-value store with extra steps?</summary><p>For a single pre-resolvable key, a dictionary wins and the spec says so. A cartridge earns its place when facts must be <em>resident during generation</em>: many facts per answer, unpredictable which ones, mid-stream, offline, or shaping token-level syntax — with zero context tokens and no retrieval service. And it is the only memory format whose recall can be audited per fact.</p></details>
+  <details><summary>Does a cartridge understand paraphrase?</summary><p>No. Recall is bound to exact key tokens. The model does the understanding — it writes the canonical key — and the memory recalls exactly. That division is the design, not a limitation to hide.</p></details>
+  <details><summary>Can I mount several cartridges at once?</summary><p>Today's measured answer is "one memory at a time, chosen by a router": independently trained cartridges with overlapping vocabularies interfere when co-mounted. The chat pattern routes naturally — the key format the model writes identifies the cartridge. Co-training for true co-mounting is a named open item.</p></details>
+  <details><summary>Is a cartridge file private?</summary><p>No. It is a compiled extract of its facts: with the hash seeds in the file, an attacker who can guess keys can reconstruct values offline (measured: 42% of sampled facts from a public cities cartridge, no model loaded). Publish only public facts under <code>profile: public</code>; use the pseudonymous profile — keyed-hash keys with a mount-time secret — for anything else.</p></details>
+  <details><summary>How is this related to DeepSeek's and Qwen's engrams?</summary><p>The mechanism is DeepSeek's <a href="https://arxiv.org/abs/2601.07372">Conditional Memory via Scalable Lookup</a>, now shipping inside models such as Qwen3.8-Flash-Next. <code>ENGRAMS.md</code> is the convention for <em>detachable, auditable</em> engrams trained after the fact — cartridges, manifests, registries. A complement, the way <code>AGENTS.md</code> complements the models it instructs.</p></details>
+  <details><summary>Why plural?</summary><p>Because a project has several memories, the way it has several agents. One file declares them all.</p></details>
+</section>
+
+<footer>
+  ENGRAMS.md v0.1 draft · MIT · <a href="https://github.com/engramsmd/engrams.md">github.com/engramsmd/engrams.md</a> ·
+  live demo at <a href="https://engram.md">engram.md</a> · contact <a href="mailto:hello@engram.md">hello@engram.md</a>
+</footer>
+</div>
+<script>
+(async () => {
+  const tbody = document.querySelector('#registry-table tbody');
+  try {
+    const idx = await (await fetch('registry/index.json')).json();
+    const mb = (b) => (b / 1048576).toFixed(b > 100e6 ? 0 : 1) + ' MB';
+    tbody.innerHTML = '';
+    for (const c of idx.cartridges) {
+      const f = c.files?.[0] ?? {};
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        `<td><a href="${f.url ?? '#'}">${c.name}</a><br><span style="color:var(--muted);font-size:.82rem">${c.description ?? ''}</span></td>` +
+        `<td class="mono">${(c.query_shapes ?? []).map((q) => q.format).join('<br>')}</td>` +
+        `<td class="mono">${c.facts.toLocaleString()}</td>` +
+        `<td class="mono"><span class="${c.audit?.accuracy >= 0.999 ? 'good' : ''}">${c.audit ? (c.audit.accuracy * 100).toFixed(2) + '%' : 'unaudited'}</span></td>` +
+        `<td class="mono">${c.base_model.id}<br>${c.base_model.fingerprint}${c.stack ? ' + ' + c.stack.map((s) => s.name).join(', ') : ''}</td>` +
+        `<td class="mono">${f.bytes ? mb(f.bytes) : ''}</td>`;
+      tbody.appendChild(tr);
+    }
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="6">Could not load the registry index.</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>
