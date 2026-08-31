@@ -133,11 +133,11 @@ security:
   <p class="eyebrow">Adopt it</p>
   <h2>Three steps</h2>
   <ol class="steps">
-    <li><strong>Compile and audit.</strong> Turn your facts into canonical lines, train a cartridge against your frozen base, audit it whole, repair, stamp. The <a href="https://github.com/AgentOrientedArchitecture/aoa-engram">reference toolchain</a> does all of this; a 16,000-fact store audits in about 80 seconds on one GPU.</li>
+    <li><strong>Compile and audit.</strong> Turn your facts into canonical lines, train a cartridge against your frozen base, audit it whole, repair, stamp. A 16,000-fact store audits in about 80 seconds on one GPU.</li>
     <li><strong>Declare it.</strong> Write <code>ENGRAMS.md</code> at your project root: name, query shapes, stack fingerprints, audit, file checksum. Run <code>tools/validate.py</code>.</li>
     <li><strong>Mount by fingerprint.</strong> Your agent reads the file, mounts the cartridge that matches its stack, asks only in the declared shapes — and, if you want, shows a provenance badge on every answer. The <a href="https://engram.md/demo.html">demo's chat workspace</a> is a working pattern: the model writes the key, the memory answers it, the model phrases the value.</li>
   </ol>
-  <p>Runtimes today: a <a href="https://github.com/trunksio/llama.cpp/tree/engram">llama.cpp fork</a> (native) and a <a href="https://github.com/trunksio/wllama/tree/engram">wllama fork</a> (browser, wasm), both implementing <code>engram-gguf/1</code> with bit-exact hashing parity to the Python trainer.</p>
+  <p>Runtimes exist today for native inference and for the browser (wasm) — the <a href="https://engram.md/demo.html">live demo</a> runs the latter — both implementing <code>engram-gguf/1</code> with bit-exact hashing parity.</p>
 </section>
 
 <section id="registry">

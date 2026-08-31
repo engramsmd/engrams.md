@@ -19,10 +19,6 @@ well each has been measured to recall its own contents.
 - **Site** — https://engrams.md (this repository, static).
 - **Live demo** — https://engram.md: mount and unmount real cartridges in a
   browser tab, including a chat agent that writes the memory's key itself.
-- **Reference toolchain** — [aoa-engram](https://github.com/AgentOrientedArchitecture/aoa-engram)
-  (compile → train → audit → repair → stamp → export), runtimes:
-  [llama.cpp fork](https://github.com/trunksio/llama.cpp/tree/engram),
-  [wllama fork](https://github.com/trunksio/wllama/tree/engram).
 
 ## Adopt it in three steps
 

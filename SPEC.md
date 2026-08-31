@@ -4,11 +4,10 @@
 
 ## 0. Status
 
-Draft 0.1, 2026-08-31. Everything here is implemented by the reference
-toolchain (aoa-engram) and runtimes (llama.cpp and wllama forks) and has
-been exercised on public cartridges. Field names may still change before
-1.0; the cartridge binary format (`engram-gguf/1`) is frozen for the
-reference implementation and will only be extended, not altered.
+Draft 0.1, 2026-08-31. Everything here is implemented and has been
+exercised on the public cartridges in the registry, natively and in the
+browser. Field names may still change before 1.0; the cartridge binary
+format (`engram-gguf/1`) will only be extended, not altered.
 
 ## 1. Purpose
 
@@ -156,8 +155,19 @@ Tensors (F32), one set per order `o` and head `h`:
 | `engram.memory_key.{o}` | projects the gathered candidate for gating |
 | `engram.value.{o}` | projects the gathered candidate into the residual stream |
 
-Shapes follow the reference exporter (`scripts/export_engram_gguf.py` in
-aoa-engram); `candidate_dim = heads_per_order × head_dim`.
+Shapes, given as GGUF `ne` dimensions (fastest first), with
+`candidate_dim = heads_per_order × head_dim`:
+
+| tensor | ne |
+| --- | --- |
+| `engram.table.{o}.{h}` | `[head_dim, buckets]` |
+| `engram.hidden_key.{o}` | `[hidden_size, candidate_dim]` |
+| `engram.memory_key.{o}` | `[candidate_dim, candidate_dim]` |
+| `engram.value.{o}` | `[candidate_dim, hidden_size]` |
+
+Equivalently, in row-major terms: table rows are `buckets × head_dim`,
+`hidden_key` maps `hidden_size → candidate_dim`, `memory_key` maps
+`candidate_dim → candidate_dim`, `value` maps `candidate_dim → hidden_size`.
 
 ### 4.1 Hashing (normative)
 
@@ -179,8 +189,8 @@ for k in 0 .. N-1:
 index = 1 + (state mod (buckets - 1))         # non-negative remainder
 ```
 
-Reference implementations agree to the bit (Python `hashing.py`; C++
-`llama-engram.cpp`).
+Independent implementations MUST agree to the bit; a conformance check is
+identical bucket indices for a shared test vector of token windows.
 
 ### 4.2 Application (normative)
 
@@ -255,13 +265,14 @@ A **conforming ENGRAMS.md** parses under `schema/engrams.schema.json` for
 every `engram` block. A **conforming cartridge** is an `engram-gguf/1` file
 whose hashing and application match §4 (the reference parity test:
 identical greedy generations across the Python and llama.cpp
-implementations). A **conforming runtime** refuses stack mismatches, applies
-§4.2, and leaves the base byte-identical after unmount.
+implementations). A **conforming runtime** refuses stack mismatches, applies §4.2, and
+leaves the base byte-identical after unmount. Two independent runtimes
+(one native, one browser/wasm) are conforming today and produce identical
+greedy generations on the registry's public cartridges.
 
 ## 11. References
 
 - DeepSeek, *Conditional Memory via Scalable Lookup: A New Axis of Sparsity
   for Large Language Models* — arXiv:2601.07372.
-- Reference toolchain and results: aoa-engram (`docs/audit-and-repair.md`).
-- Runtimes: llama.cpp fork (`engram` branch) and wllama fork.
-- Live demo: https://engram.md
+- Live demo and public cartridges: https://engram.md and the registry in
+  this repository.
